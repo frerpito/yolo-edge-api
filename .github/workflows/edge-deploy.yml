@@ -60,6 +60,7 @@ jobs:
 
           echo "=== TESTE SSH ==="
           ssh -i ~/.ssh/dvc_key \
+            -o IdentitiesOnly=yes \
             -o StrictHostKeyChecking=no \
             frerp@100.125.18.32 \
             "whoami && echo SSH_OK && ls -ld /home/frerp/dvc-storage && ls -ld /home/frerp/dvc-storage/files"
