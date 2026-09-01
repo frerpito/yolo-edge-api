@@ -57,9 +57,21 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.RPI_SSH_KEY }}" | tr -d '\r' > ~/.ssh/dvc_key
           chmod 600 ~/.ssh/dvc_key
-          dvc remote modify --local local_remote keyfile ~/.ssh/dvc_key
-          dvc pull
 
+          echo "=== TESTE SSH ==="
+          ssh -i ~/.ssh/dvc_key \
+            -o StrictHostKeyChecking=no \
+            frerp@100.125.18.32 \
+            "whoami && echo SSH_OK && ls -ld /home/frerp/dvc-storage && ls -ld /home/frerp/dvc-storage/files"
+
+          echo "=== CONFIG DVC ==="
+          cat .dvc/config
+
+          echo "=== CONFIGURANDO CHAVE DO DVC ==="
+          dvc remote modify --local local_remote keyfile ~/.ssh/dvc_key
+
+          echo "=== DVC PULL ==="
+          dvc pull
 
       - name: Disponibiliza o modelo em /app/models (mesmo path usado no Docker)
         run: |
