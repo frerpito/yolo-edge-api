@@ -86,7 +86,7 @@ jobs:
 
 
       - name: Testes automatizados
-        run: pytest tests/ -v --tb=short
+        run: pytest testes/ -v --tb=short
 
 
 
