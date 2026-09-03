@@ -1,10 +1,36 @@
-FROM python:3.11-slim-bookworm
+FROM python:3.11-slim-trixie
 
 
 # Instala dependencias do sistema + curl para o healthcheck
+#RUN apt-get update && apt-get install -y --no-install-recommends \
+#        libgl1 libglib2.0-0 libgomp1 curl && \
+#    rm -rf /var/lib/apt/lists/*
+
+
+#-
+#-
+#-
+# Repositório oficial da Raspberry Pi
+COPY raspberrypi-archive-keyring.pgp /usr/share/keyrings/raspberrypi-archive-keyring.pgp
+
+RUN echo "Types: deb" > /etc/apt/sources.list.d/raspi.sources && \
+    echo "URIs: http://archive.raspberrypi.com/debian/" >> /etc/apt/sources.list.d/raspi.sources && \
+    echo "Suites: trixie" >> /etc/apt/sources.list.d/raspi.sources && \
+    echo "Components: main" >> /etc/apt/sources.list.d/raspi.sources && \
+    echo "Signed-By: /usr/share/keyrings/raspberrypi-archive-keyring.pgp" >> /etc/apt/sources.list.d/raspi.sources
+
+# Dependências do sistema + ferramentas da câmera
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        libgl1 libglib2.0-0 libgomp1 curl && \
+        libgl1 \
+        libglib2.0-0 \
+        libgomp1 \
+        curl \
+        rpicam-apps && \
     rm -rf /var/lib/apt/lists/*
+#-
+#-
+#-
+
 
 
 WORKDIR /app
