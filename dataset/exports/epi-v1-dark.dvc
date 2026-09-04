@@ -1,0 +1,6 @@
+outs:
+- md5: 046c1972837ac545d860647e67ed96a3.dir
+  size: 1998196
+  nfiles: 41
+  hash: md5
+  path: epi-v1-dark
